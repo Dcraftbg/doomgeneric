@@ -60,8 +60,9 @@ void M_MakeDirectory(char *path)
 #elif defined(_MINOS)
 #define ___STRINGIFY(x) # x
 #define __STRINGIFY(x) ___STRINGIFY(x)
-    fprintf(stderr, "ERROR:" __FILE__ ":" __STRINGIFY(__LINE__) " Not implement: mkdir %s\n", path);
-    exit(1);
+    if(strcmp(path, ".")==0) return;
+    fprintf(stderr, "WARN:" __FILE__ ":" __STRINGIFY(__LINE__) " Not implement: mkdir %s\n", path);
+    // exit(1);
 #else
     mkdir(path, 0755);
 #endif
