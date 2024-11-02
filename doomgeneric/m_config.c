@@ -1559,13 +1559,15 @@ static default_collection_t extra_defaults =
 };
 
 // Search a collection for a variable
-
+int enable_search_log=0;
 static default_t *SearchCollection(default_collection_t *collection, char *name)
 {
     int i;
 
     for (i=0; i<collection->numdefaults; ++i) 
     {
+        (void)enable_search_log;
+        // if (enable_search_log) printf("%p> (%s) default: %s\n", collection, name, collection->defaults[i].name);
         if (!strcmp(name, collection->defaults[i].name))
         {
             return &collection->defaults[i];
@@ -1944,7 +1946,9 @@ static default_t *GetDefaultForName(char *name)
 
     if (result == NULL)
     {
+        if(strcmp(name, "key_multi_msgplayer1") == 0) enable_search_log = 1;
         result = SearchCollection(&extra_defaults, name);
+        if(strcmp(name, "key_multi_msgplayer1") == 0) enable_search_log = 0;
     }
 
     // Not found? Internal error.
