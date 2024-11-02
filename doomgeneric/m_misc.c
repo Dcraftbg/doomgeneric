@@ -31,6 +31,7 @@
 #ifdef _MSC_VER
 #include <direct.h>
 #endif
+#elif defined(_MINOS)
 #else
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -56,6 +57,11 @@ void M_MakeDirectory(char *path)
 {
 #ifdef _WIN32
     mkdir(path);
+#elif defined(_MINOS)
+#define ___STRINGIFY(x) # x
+#define __STRINGIFY(x) ___STRINGIFY(x)
+    fprintf(stderr, "ERROR:" __FILE__ ":" __STRINGIFY(__LINE__) " Not implement: mkdir %s\n", path);
+    exit(1);
 #else
     mkdir(path, 0755);
 #endif

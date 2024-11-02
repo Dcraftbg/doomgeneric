@@ -846,7 +846,11 @@ static void InterceptsOverrun(int num_intercepts, intercept_t *intercept)
 
     InterceptsMemoryOverrun(location, intercept->frac);
     InterceptsMemoryOverrun(location + 4, intercept->isaline);
+#ifdef _MINOS
+    InterceptsMemoryOverrun(location + 8, (long long int) intercept->d.thing);
+#else
     InterceptsMemoryOverrun(location + 8, (int) intercept->d.thing);
+#endif
 }
 
 

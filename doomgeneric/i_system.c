@@ -26,6 +26,7 @@
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#elif defined(_MINOS)
 #else
 #include <unistd.h>
 #endif
@@ -271,7 +272,11 @@ void I_Quit (void)
 
 static int ZenityAvailable(void)
 {
+#ifdef _MINOS
+    return 0;
+#else
     return system(ZENITY_BINARY " --help >/dev/null 2>&1") == 0;
+#endif    
 }
 
 // Escape special characters in the given string so that they can be
@@ -338,8 +343,10 @@ static int ZenityErrorBox(char *message)
     errorboxpath = malloc(errorboxpath_size);
     M_snprintf(errorboxpath, errorboxpath_size, "%s --error --text=%s",
                ZENITY_BINARY, escaped_message);
-
+#ifdef _MINOS
+#else
     result = system(errorboxpath);
+#endif
 
     free(errorboxpath);
     free(escaped_message);

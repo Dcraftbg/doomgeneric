@@ -30,10 +30,12 @@
 #define strcasecmp _stricmp
 #define strncasecmp _strnicmp
 
+#elif defined(_MINOS)
+
+#include <string.h>
+
 #else
-
 #include <strings.h>
-
 #endif
 
 
