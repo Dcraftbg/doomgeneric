@@ -12,9 +12,9 @@ else
 endif
 
 CC=gcc
-CFLAGS+=-nostdlib -march=x86-64 -ffreestanding -static -Werror -Wno-pointer-to-int-cast -Wno-unused-function -Wno-unused-variable -Wno-dangling-pointer -Wno-unused-but-set-variable -Wall -fno-stack-protector -fcf-protection=none -O2 -mno-mmx -mno-3dnow -fPIC -I ../../../../libs/std/include -I ../../../libc/include -D_MINOS
+CFLAGS+=-nostdlib -march=x86-64 -ffreestanding -static -Werror -Wno-pointer-to-int-cast -Wno-unused-function -Wno-unused-variable -Wno-dangling-pointer -Wno-unused-but-set-variable -Wall -Wno-unused-result -Wno-format-truncation -fno-stack-protector -fcf-protection=none -O2 -mno-mmx -mno-3dnow -fPIC -I ../../../libs/std/include -I ../../libc/include -D_MINOS
 LDFLAGS+=-T ../link.minos.ld
-LIBS+=$(wildcard ../../../../bin/user/libc/*.o) $(wildcard ../../../../bin/user/crt/*.o) $(wildcard ../../../../bin/std/*.o)
+LIBS+=$(wildcard ../../../bin/user/libc/*.o) $(wildcard ../../../bin/user/crt/*.o) $(wildcard ../../../bin/std/*.o)
 
 # subdirectory for objects
 OBJDIR=build
