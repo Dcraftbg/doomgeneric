@@ -8,7 +8,7 @@ uintptr_t fb;
 void DG_Init() {
     intptr_t e;
     const char* fb_path = "/devices/fb0";
-    if((e=open(fb_path, MODE_READ | MODE_WRITE)) < 0) {
+    if((e=open(fb_path, MODE_READ | MODE_WRITE, 0)) < 0) {
         fprintf(stderr, "ERROR: Failed to open `%s`: %s\n", fb_path, status_str(e));
         exit(1);
     }
