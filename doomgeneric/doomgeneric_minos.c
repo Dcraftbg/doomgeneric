@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <minos/sysstd.h>
 #include <minos/status.h>
-uintptr_t fb;
+uintptr_t fb=0;
 void DG_Init() {
     intptr_t e;
     const char* fb_path = "/devices/fb0";
@@ -12,6 +12,14 @@ void DG_Init() {
         fprintf(stderr, "ERROR: Failed to open `%s`: %s\n", fb_path, status_str(e));
         exit(1);
     }
+    fb = e;
+    const char* dbg_path = "/devices/serial0";
+    if((e=open(dbg_path, MODE_WRITE | MODE_STREAM, 0)) < 0) {
+        fprintf(stderr, "ERROR: Failed to open `%s`: %s\n", dbg_path, status_str(e));
+        close(fb);
+        exit(1);
+    }
+    stddbg = (FILE*)e;
 }
 
 void DG_DrawFrame() {
