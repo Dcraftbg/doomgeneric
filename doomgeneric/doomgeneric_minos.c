@@ -124,14 +124,18 @@ void DG_DrawFrame() {
         head += stats.pitch_bytes;
     }
 }
-void DG_SleepMs(uint32_t ms)
-{
+void DG_SleepMs(uint32_t ms) {
+    MinOS_Duration duration={0};
+    duration.secs = ms / 1000;
+    duration.nano = (ms % 1000) * 1000000;
+    sleepfor(&duration);
 }
 
 uint32_t DG_GetTicksMs()
 {
-    static uint32_t ticks = 0;
-    return ticks++;
+    MinOS_Time time={0};
+    gettime(&time);
+    return time.ms;
 }
 #if 0
 void DG_SleepMs(uint32_t ms) {
