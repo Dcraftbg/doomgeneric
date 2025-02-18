@@ -94,7 +94,7 @@ void DG_Init() {
         fprintf(stderr, "ERROR: Failed to mmap on fb: %s\n", status_str(e));
         goto err_fb;
     }
-    const char* kb_path = "/devices/ps2keyboard";
+    const char* kb_path = "/devices/keyboard";
     if((e=open(kb_path, MODE_READ, 0)) < 0) {
         fprintf(stderr, "ERROR: Failed to open `%s`: %s\n", kb_path, status_str(e));
         goto err_kb;
