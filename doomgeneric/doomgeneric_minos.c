@@ -8,6 +8,7 @@
 #include <minos/keycodes.h>
 #include <minos/key.h>
 #include <stdbool.h>
+#include <ctype.h>
 #define KEY_BYTES ((MINOS_KEY_COUNT+7)/8)
 typedef struct {
     // Is key down?
@@ -95,7 +96,7 @@ void DG_Init() {
         goto err_fb;
     }
     const char* kb_path = "/devices/keyboard";
-    if((e=open(kb_path, MODE_READ, 0)) < 0) {
+    if((e=open(kb_path, MODE_READ, O_NOBLOCK)) < 0) {
         fprintf(stderr, "ERROR: Failed to open `%s`: %s\n", kb_path, status_str(e));
         goto err_kb;
     }
@@ -157,36 +158,44 @@ int DG_GetKey(int* pressed, unsigned char* doomKey) {
 
     key_set(&kb_state, key.code, key.attribs);
     switch(key.code) {
+    case MINOS_KEY_ESCAPE:
+        *doomKey = KEY_ESCAPE;
+        break;
     case MINOS_KEY_ENTER:
         *doomKey = KEY_ENTER;
         break;
     case MINOS_KEY_LEFT_CTRL:
         *doomKey = KEY_FIRE;
         break;
-    case 'A':
+    case MINOS_KEY_LEFT_ARROW:
         *doomKey = KEY_LEFTARROW;
         break;
-    case 'D':
+    case MINOS_KEY_RIGHT_ARROW:
         *doomKey = KEY_RIGHTARROW;
         break;
-    case 'W':
+    case MINOS_KEY_UP_ARROW:
         *doomKey = KEY_UPARROW;
         break;
-    case 'S':
+    case MINOS_KEY_DOWN_ARROW:
         *doomKey = KEY_DOWNARROW;
         break;
     case ' ':
         *doomKey = KEY_USE;
         break;
+    case ',':
+        *doomKey = KEY_STRAFE_L;
+        break;
+    case '.':
+        *doomKey = KEY_STRAFE_R;
+        break;
     case MINOS_KEY_RIGHT_SHIFT:
         *doomKey = KEY_RSHIFT;
         break;
+    case MINOS_KEY_LEFT_ALT:
+        *doomKey = KEY_LALT;
+        break;
     default:
-        if(key.code >= 'A' && key.code <= 'Z') {
-            *doomKey = key.code-'A'+'a';
-        } else {
-            *doomKey = key_unicode(&kb_state, key.code);
-        }
+        *doomKey = tolower(key_unicode(&kb_state, key.code));
     }
     if(key.attribs & KEY_ATTRIB_RELEASE) {
         *pressed = false;
