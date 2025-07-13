@@ -60,18 +60,12 @@ static uint8_t US_QWERTY_SHIFTED[256] = {
    0xF8, 0xF9, 0xFA, 0xFB, 0xFC, 0xFD, 0xFE, 0xFF
 };
 static int key_unicode(Keyboard* keyboard, uint16_t code) {
-    switch(code) {
-    case MINOS_KEY_ENTER:
-        if(key_get(keyboard, MINOS_KEY_ENTER)) return '\n';
-        return 0;
-    default:
-        if(code >= 256 || !key_get(keyboard, code)) return 0;
-        if(key_get(keyboard, MINOS_KEY_LEFT_SHIFT) || key_get(keyboard, MINOS_KEY_RIGHT_SHIFT)) {
-            return US_QWERTY_SHIFTED[code];
-        }
-        if(code >= 'A' && code <= 'Z') return code-'A' + 'a';
-        return code;
+    if(code >= 256 || !key_get(keyboard, code)) return 0;
+    if(key_get(keyboard, MINOS_KEY_LEFT_SHIFT) || key_get(keyboard, MINOS_KEY_RIGHT_SHIFT)) {
+        return US_QWERTY_SHIFTED[code];
     }
+    if(code >= 'A' && code <= 'Z') return code-'A' + 'a';
+    return code;
 }
 uintptr_t fb=0;
 uintptr_t kb=0;
@@ -161,7 +155,7 @@ int DG_GetKey(int* pressed, unsigned char* doomKey) {
     case MINOS_KEY_ESCAPE:
         *doomKey = KEY_ESCAPE;
         break;
-    case MINOS_KEY_ENTER:
+    case '\n':
         *doomKey = KEY_ENTER;
         break;
     case MINOS_KEY_LEFT_CTRL:
