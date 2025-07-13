@@ -11,11 +11,12 @@ else
 	VB=@
 endif
 
+MINOSROOT?=../../../
 CC=x86_64-minos-gcc
-CFLAGS+=-O1 -g -ggdb
+CFLAGS+=-O1 -g -ggdb -I../../libpluto/include -I../../libwm/include
 LDFLAGS+=
 #-T ../link.minos.ld
-LIBS+=
+LIBS+=-L$(MINOSROOT)/bin/libpluto -L$(MINOSROOT)/bin/libwm -lpluto -lwm
 
 # subdirectory for objects
 OBJDIR=build

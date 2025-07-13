@@ -81,21 +81,6 @@ size_t W_StdC_Read(wad_file_t *wad, unsigned int offset,
     // Read into the buffer.
 
     result = fread(buffer, 1, buffer_len, stdc_wad->fstream);
-#if 0
-    if(result > 0) {
-        char hex2[3];
-        unsigned char sum = 0;
-        for (size_t i = 0; i < result; i++)
-            sum += ((unsigned char*)buffer)[i];
-        const char* hex = "0123456789abcdef";
-        hex2[0] = hex[(sum >> 4) & 0xF];
-        hex2[1] = hex[(sum) & 0xF];
-        hex2[2] = '\0';
-        fprintf(stddbg, "read (%s) offset %zu, count %zu, got %zu\n", hex2, (size_t)offset, buffer_len, result);
-    } else {
-        fprintf(stddbg, "FAILED TO READ\n");
-    }
-#endif
     return result;
 }
 
