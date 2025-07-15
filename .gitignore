@@ -6,7 +6,11 @@
 *.user
 *.map
 *~
+*.old
+nob
 .vs/
 Debug/
 Release/
 doomgeneric/doomgeneric
+.build/
+
